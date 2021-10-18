@@ -1,13 +1,41 @@
 package mx.tecnm.tepic.u2_practica1_presentaciondiademuertos
 
 import android.annotation.SuppressLint
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.CountDownTimer
 import android.view.View
 
 class Lienzo(p:MainActivity) : View(p) {
     var principal = p
+    var tumba_negra = BitmapFactory.decodeResource(principal.resources, R.drawable.tumba_negra)
+    var tumba_rota = BitmapFactory.decodeResource(principal.resources, R.drawable.tumba_rota)
+    var witch = BitmapFactory.decodeResource(principal.resources, R.drawable.witch)
+    var posXNube = 0f
+    var posXWitch = 0f
+
+    var movimientoNubesWitch = object: CountDownTimer(2000, 80){
+        override fun onTick(p0: Long) {
+            posXNube +=1f
+            if(posXNube > 1037)posXNube = posXNube*-1
+
+            posXWitch += 5f
+            if(posXWitch >= 1757) posXWitch = 0f
+            invalidate()
+
+        }
+
+        override fun onFinish() {
+            start()
+        }
+
+    }
+
+    init {
+        movimientoNubesWitch.start()
+    }
 
     @SuppressLint("NewApi")
     override fun onDraw(c: Canvas){
@@ -21,7 +49,9 @@ class Lienzo(p:MainActivity) : View(p) {
         p.color = Color.WHITE
         val ancho = width
         val alto = height
-        (1..5000).forEach {
+        //val ancho = 1557
+        //val alto = 538
+        (1..500).forEach {
             var x = (Math.random()*ancho).toFloat()
             var y = (Math.random()*alto).toFloat()
             c.drawPoint(x,y,p)
@@ -40,38 +70,80 @@ class Lienzo(p:MainActivity) : View(p) {
         c.drawCircle(840f, 90f, 15f, p)
         c.drawCircle(810f, 100f, 10f, p)
 
+        // WITCH
+        c.drawBitmap(witch,posXWitch, 70f, p)
+
         //---------------------------------------------Nubes
         //p.color = Color.argb(255,134,177,221)
         p.color = Color.rgb(180,203,217)
         // NUBE 1
-        c.drawOval(590f, 70f, 680f, 150f,p)
-        c.drawOval(640f, 20f, 720f, 110f,p)
-        c.drawOval(690f, 20f, 780f, 110f,p)
-        c.drawOval(650f, 85f, 730f, 180f,p)
-        c.drawOval(720f, 90f, 800f, 170f,p)
+        c.drawOval(590f-posXNube, 70f, 680f-posXNube, 150f,p)
+        c.drawOval(640f-posXNube, 20f, 720f-posXNube, 110f,p)
+        c.drawOval(690f-posXNube, 20f, 780f-posXNube, 110f,p)
+        c.drawOval(650f-posXNube, 85f, 730f-posXNube, 180f,p)
+        c.drawOval(720f-posXNube, 90f, 800f-posXNube, 170f,p)
 
         // NUBE 2
-        c.drawOval(820f, 70f, 910f, 150f,p)
-        c.drawOval(870f, 20f, 950f, 110f,p)
-        c.drawOval(920f, 20f, 1010f, 110f,p)
-        c.drawOval(880f, 85f, 960f, 180f,p)
-        c.drawOval(950f, 90f, 1030f, 170f,p)
+        c.drawOval(820f+posXNube, 70f, 910f+posXNube, 150f,p)
+        c.drawOval(870f+posXNube, 20f, 950f+posXNube, 110f,p)
+        c.drawOval(920f+posXNube, 20f, 1010f+posXNube, 110f,p)
+        c.drawOval(880f+posXNube, 85f, 960f+posXNube, 180f,p)
+        c.drawOval(950f+posXNube, 90f, 1030f+posXNube, 170f,p)
 
         // NUBE 3 - pequeña
-        c.drawOval(1220f, 70f, 1310f, 150f,p)
-        c.drawOval(1270f, 20f, 1350f, 110f,p)
-        c.drawOval(1320f, 20f, 1410f, 110f,p)
-        c.drawOval(1280f, 85f, 1360f, 180f,p)
-        c.drawOval(1350f, 90f, 1430f, 170f,p)
+        c.drawOval(1220f-posXNube, 70f, 1310f-posXNube, 150f,p)
+        c.drawOval(1270f-posXNube, 20f, 1350f-posXNube, 110f,p)
+        c.drawOval(1320f-posXNube, 20f, 1410f-posXNube, 110f,p)
+        c.drawOval(1280f-posXNube, 85f, 1360f-posXNube, 180f,p)
+        c.drawOval(1350f-posXNube, 90f, 1430f-posXNube, 170f,p)
 
         // NUBE 4 - pequeña
-        c.drawOval(120f, 70f, 210f, 150f,p)
-        c.drawOval(170f, 20f, 250f, 110f,p)
-        c.drawOval(220f, 20f, 310f, 110f,p)
-        c.drawOval(180f, 85f, 260f, 180f,p)
-        c.drawOval(250f, 90f, 330f, 170f,p)
+        c.drawOval(120f+posXNube, 70f, 210f+posXNube, 150f,p)
+        c.drawOval(170f+posXNube, 20f, 250f+posXNube, 110f,p)
+        c.drawOval(220f+posXNube, 20f, 310f+posXNube, 110f,p)
+        c.drawOval(180f+posXNube, 85f, 260f+posXNube, 180f,p)
+        c.drawOval(250f+posXNube, 90f, 330f+posXNube, 170f,p)
+
+        // Cerros
+        p.color = Color.rgb(27,55,87)
+        c.drawOval(0f, ((alto/2)-80).toFloat(), (ancho/2).toFloat(), ((alto/2)*2).toFloat(),p)
+        c.drawOval(((ancho/2)-30).toFloat(), ((alto/2)-80).toFloat(), ((ancho/2)*2).toFloat(), ((alto/2)*2).toFloat(),p)
+        //c.drawRect(0f, (((alto/2)*2)-(alto/2)).toFloat(),ancho.toFloat(), ((alto/2)*2).toFloat(),p)
+        c.drawRect(0f, (((alto/2)*2)-(alto/2)+50).toFloat(),ancho.toFloat(), ((alto/2)*2).toFloat(),p)
 
 
+        // Árboles
+        p.color = Color.BLACK
+        // ARBOL 1
+        c.drawRect(70f, 200f, 80f, 280f, p)
+        c.drawOval(55f, 150f, 95f, 230f, p)
+
+        // ARBOL 2
+        c.drawRect(100f, 230f, 110f, 310f, p)
+        c.drawOval(85f, 180f, 125f, 260f, p)
+
+        //Lapidas
+        c.drawBitmap(tumba_negra,90f, 290f, p)
+        c.drawBitmap(tumba_negra,150f, 230f, p)
+        c.drawBitmap(tumba_negra,250f, 230f, p)
+
+        c.drawBitmap(tumba_negra,800f, 240f, p)
+        c.drawBitmap(tumba_negra,950f, 170f, p)
+        c.drawBitmap(tumba_negra,1100f, 230f, p)
+        c.drawBitmap(tumba_negra,1300f, 260f, p)
+        c.drawBitmap(tumba_negra,1400f, 250f, p)
+
+        c.drawBitmap(tumba_rota,150f, 250f, p)
+        c.drawBitmap(tumba_rota,380f, 240f, p)
+        c.drawBitmap(tumba_rota,700f, 280f, p)
+        c.drawBitmap(tumba_rota,990f, 300f, p)
+        c.drawBitmap(tumba_rota,1300f, 320f, p)
+
+        // ARBOL 3
+        p.color = Color.rgb(98, 102, 18)
+        c.drawOval(ancho.toFloat()-100,(alto.toFloat()-190)/2, ancho.toFloat()+100, alto.toFloat()-100,p)
+        p.color = Color.rgb(81, 84, 43)
+        c.drawRect(ancho.toFloat()-50,(alto.toFloat()+100)/2, ancho.toFloat(), alto.toFloat(),p)
 
     }
 }
