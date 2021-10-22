@@ -12,9 +12,17 @@ class Lienzo(p:MainActivity) : View(p) {
     var principal = p
     var tumba_negra = BitmapFactory.decodeResource(principal.resources, R.drawable.tumba_negra)
     var tumba_rota = BitmapFactory.decodeResource(principal.resources, R.drawable.tumba_rota)
+    var lapida_1 = BitmapFactory.decodeResource(principal.resources, R.drawable.tombstone)
+    var lapida_2 = BitmapFactory.decodeResource(principal.resources, R.drawable.tombstone_)
     var witch = BitmapFactory.decodeResource(principal.resources, R.drawable.witch)
+    var catrina_grande = BitmapFactory.decodeResource(principal.resources, R.drawable.catrina_pie)
+    var flores = BitmapFactory.decodeResource(principal.resources, R.drawable.flores_2)
+    var ofrenda1 = BitmapFactory.decodeResource(principal.resources, R.drawable.ofrenda_1)
+    var ofrenda2 = BitmapFactory.decodeResource(principal.resources, R.drawable.ofrenda_2)
     var posXNube = 0f
     var posXWitch = 0f
+
+    var posXCatrina = -200f
 
     var movimientoNubesWitch = object: CountDownTimer(2000, 80){
         override fun onTick(p0: Long) {
@@ -33,8 +41,22 @@ class Lienzo(p:MainActivity) : View(p) {
 
     }
 
+    var movimientoCatrina = object : CountDownTimer(2000, 80) {
+        override fun onTick(p0: Long) {
+            posXCatrina +=7f
+            if(posXCatrina >= 1800)posXCatrina=-200f
+            invalidate()
+
+        }
+
+        override fun onFinish() {
+            start()
+        }
+    }
+
     init {
         movimientoNubesWitch.start()
+        movimientoCatrina.start()
     }
 
     @SuppressLint("NewApi")
@@ -133,17 +155,29 @@ class Lienzo(p:MainActivity) : View(p) {
         c.drawBitmap(tumba_negra,1300f, 260f, p)
         c.drawBitmap(tumba_negra,1400f, 250f, p)
 
-        c.drawBitmap(tumba_rota,150f, 250f, p)
-        c.drawBitmap(tumba_rota,380f, 240f, p)
-        c.drawBitmap(tumba_rota,700f, 280f, p)
-        c.drawBitmap(tumba_rota,990f, 300f, p)
-        c.drawBitmap(tumba_rota,1300f, 320f, p)
+        //ARBOL
+        p.color = Color.rgb(98, 102, 18)
+        c.drawOval(ancho.toFloat()-855, (alto/2).toFloat()-100, ancho.toFloat()-915,alto.toFloat()-170,p)
+        p.color = Color.rgb(81, 84, 43)
+        c.drawRect(ancho.toFloat()-870,(alto.toFloat())/2, ancho.toFloat()-900, alto.toFloat()-100,p)
+
+        c.drawBitmap(lapida_1,150f, 250f, p)
+        c.drawBitmap(flores, 250f, 400f,p)
+        c.drawBitmap(lapida_2,400f, 240f, p)
+
+        //Mover catrina
+        c.drawBitmap(catrina_grande,posXCatrina, 100f,p)
+
+        c.drawBitmap(lapida_1,700f, 280f, p)
+        c.drawBitmap(ofrenda1, 740f, 400f,p)
+        c.drawBitmap(lapida_2,990f, 300f, p)
+        c.drawBitmap(ofrenda2, 1000f, 400f,p)
+        c.drawBitmap(lapida_1,1300f, 320f, p)
 
         // ARBOL 3
         p.color = Color.rgb(98, 102, 18)
         c.drawOval(ancho.toFloat()-100,(alto.toFloat()-190)/2, ancho.toFloat()+100, alto.toFloat()-100,p)
         p.color = Color.rgb(81, 84, 43)
-        c.drawRect(ancho.toFloat()-50,(alto.toFloat()+100)/2, ancho.toFloat(), alto.toFloat(),p)
-
+        c.drawRect(ancho.toFloat()-30,(alto.toFloat()+100)/2, ancho.toFloat(), alto.toFloat(),p)
     }
 }
